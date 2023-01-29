@@ -33,8 +33,7 @@
             // "executable": "./target/thumbv7em-none-eabihf/debug/examples/itm",
             "device": "STM32F411RE",
             "configFiles": [
-                "interface/stlink.cfg",
-                "target/stm32f4x.cfg"
+                "openocd.cfg"
             ],
             "svdFile": "${workspaceRoot}/.vscode/STM32F411.svd",
             "swoConfig": {
