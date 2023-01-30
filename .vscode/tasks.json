@@ -2,7 +2,19 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558 
     // for the documentation about the tasks.json format
     "version": "2.0.0",
+    "options": {
+        "env":{
+            "DEFMT_LOG": "debug"
+        }
+    },
     "tasks": [
+        {
+            "label": "Cargo Embed (debug)",
+            "type": "process",
+            "command": "cargo",
+            "args": ["embed", "--chip", "STM32F411RETx"],
+
+        },
         {
             /*
              * This is the default cargo build task,
@@ -19,7 +31,7 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
         },
         {
             "label": "Cargo Build (release)",

@@ -4,24 +4,22 @@
 
 use defmt::*;
 use embassy_executor::Spawner;
-use embassy_stm32::gpio::{Level, Output, Speed};
-use embassy_time::{Duration, Timer};
+use embassy_stm32::adc::Adc;
+use embassy_time::{Delay, Timer, Duration};
 use {defmt_rtt as _, panic_probe as _};
 
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) {
-    let p = embassy_stm32::init(Default::default());
+    let mut p = embassy_stm32::init(Default::default());
     info!("Hello World!");
 
-    let mut led = Output::new(p.PA5, Level::High, Speed::Low);
+    let mut delay = Delay;
+    let mut adc = Adc::new(p.ADC1, &mut delay);
 
     loop {
-        info!("high");
-        led.set_high();
-        Timer::after(Duration::from_millis(300)).await;
-
-        info!("low");
-        led.set_low();
-        Timer::after(Duration::from_millis(300)).await;
+        let r1 = adc.read(&mut p.PA0);
+        let r2 = adc.read(&mut p.PA1);
+        info!("ADC outputs: 0x{:x} 0x{:x}", r1, r2);
+        Timer::after(Duration::from_secs(1)).await;
     }
 }

@@ -1,0 +1,18 @@
+[default.general]
+chip = "STM32F411RETx"
+
+[default.rtt]
+enabled = true
+channels = [
+    { up = 0, down = 0, format = "Defmt" }
+]
+timeout = 100000
+show_timestamps = true
+
+[default.gdb]
+enabled = true
+gdb_connection_string = "127.0.0.1:1337"
+
+[default.reset]
+enabled = true
+#halt_afterwards = true
