@@ -1,0 +1,6 @@
+[env]
+DEFMT_LOG="info"
+
+[tasks.flash]
+command = "cargo"
+args = ["embed"]
