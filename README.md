@@ -9,3 +9,9 @@ This repo should be used as a template for future embassy applications, if we de
 - Line 2 in `Embed.toml`
 - Line 12 in `Cargo.toml`
 - Add svd file for the model to `.vscode/`
+
+## Start
+
+```bash
+cargo embed
+```
