@@ -8,6 +8,7 @@ This repo should be used as a template for future embassy applications, if we de
 
 - Line 2 in `Embed.toml`
 - Line 12 in `Cargo.toml`
+- Update `FLASH_SIZE_KIB` and `RAM_SIZE_KIB` in `size.py`
 - Add svd file for the model to `.vscode/`
 
 ## Start
