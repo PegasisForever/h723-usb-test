@@ -16,7 +16,7 @@ print(result.stdout.decode("utf-8")[:-93])
 result = subprocess.run('cargo size --release -- -A'.split(' '), capture_output=True)
 lines = result.stdout.decode("utf-8").split('\n')
 
-ram_bytes = 0
+global_bytes = 0
 rom_bytes = 0
 
 for line in lines:
@@ -24,10 +24,11 @@ for line in lines:
     if match_result:
         name, size = match_result.groups()
         if name == "bss" or name == "data":
-            ram_bytes += int(size)
+            global_bytes += int(size)
         else:
             rom_bytes += int(size)
 
 print(f"Total size in release mode:")
 print(f"Flash: {math.ceil(rom_bytes / 1024)}KiB / {FLASH_SIZE_KIB}KiB ({round(rom_bytes / (FLASH_SIZE_KIB * 1024) * 100)}%)")
-print(f"RAM: {math.ceil(ram_bytes / 1024)}KiB / {RAM_SIZE_KIB}KiB ({round(ram_bytes / (RAM_SIZE_KIB * 1024) * 100)}%)")
+print(f"Global variables: {math.ceil(global_bytes / 1024)}KiB / {RAM_SIZE_KIB}KiB ({round(global_bytes / (RAM_SIZE_KIB * 1024) * 100)}%)")
+print(f"Avaliable RAM: {math.floor(RAM_SIZE_KIB - global_bytes / 1024)}KiB")
