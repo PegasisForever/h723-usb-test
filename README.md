@@ -20,3 +20,9 @@
 ```bash
 cargo run
 ```
+
+## Calculate Size
+
+```bash
+./size.py
+```
