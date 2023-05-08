@@ -7,18 +7,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "cortex-debug",
-            "request": "launch",
-            "name": "Debug (QEMU)",
-            "servertype": "qemu",
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": "Cargo Build (debug)",
-            "runToEntryPoint": "main",
-            "executable": "./target/thumbv7m-none-eabi/debug/embassy-testing",
-            "cpu": "cortex-m3",
-            "machine": "lm3s6965evb",
-        },
-        {
             "name": "Debug (GDB)",
             "type": "cortex-debug",
             "request": "attach",
@@ -26,8 +14,8 @@
             "servertype": "external",
             "cwd": "${workspaceRoot}",
             "runToEntryPoint": "main",
-            "executable": "./target/thumbv7em-none-eabihf/debug/embassy-testing",
-            "device": "STM32F411RE",
+            "executable": "./target/thumbv7em-none-eabihf/debug/embassy-template",
+            "device": "STM32F412RE",
             "preLaunchTask": "Flash"
         },
     ]

@@ -4,8 +4,12 @@
 
 use defmt::*;
 use embassy_executor::Spawner;
-use embassy_stm32::{adc::Adc, gpio::{AnyPin, Output, Level, Speed}};
-use embassy_time::{Delay, Timer, Duration};
+use embassy_stm32::{
+    gpio::{AnyPin, Level, Output, Speed},
+    time::mhz,
+    Config,
+};
+use embassy_time::{Duration, Timer};
 use {defmt_rtt as _, panic_probe as _};
 
 #[embassy_executor::task]
@@ -20,21 +24,14 @@ async fn blink(pin: AnyPin) {
     }
 }
 
-
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
-    let mut p = embassy_stm32::init(Default::default());
+    let mut config = Config::default();
+    config.rcc.pll48 = true;
+    config.rcc.sys_ck = Some(mhz(96));
+    config.rcc.hclk = Some(mhz(96));
+    let p = embassy_stm32::init(Default::default());
     info!("Hello World!");
 
-    spawner.spawn(blink(p.PA5.into())).unwrap();
-
-    let mut delay = Delay;
-    let mut adc = Adc::new(p.ADC1, &mut delay);
-
-    loop {
-        let r1 = adc.read(&mut p.PA0);
-        let r2 = adc.read(&mut p.PA1);
-        info!("ADC outputs: 0x{:x} 0x{:x}", r1, r2);
-        Timer::after(Duration::from_secs(1)).await;
-    }
+    spawner.spawn(blink(p.PA0.into())).unwrap();
 }

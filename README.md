@@ -1,18 +1,22 @@
-# embassy-testing
-Test application evaluating embassy-rs for use in VL6.
+# embassy-template
 
-## Note
-This repo should be used as a template for future embassy applications, if we decide to move forward with it, because configuration is a royal pain in the ass
+## How to Change Application Name
+
+- Line 5 & 32 in `Cargo.toml`
+- Line 17 in `.vscode/launch.json`
+- Line 2 in `.cargo/config.toml`
 
 ## How to Change STM32 Model
 
 - Line 2 in `Embed.toml`
 - Line 12 in `Cargo.toml`
+- Line 12 in `.cargo/config.toml`
 - Update `FLASH_SIZE_KIB` and `RAM_SIZE_KIB` in `size.py`
 - Add svd file for the model to `.vscode/`
+- Line 18 in `.vscode/launch.json`
 
 ## Start
 
 ```bash
-cargo embed
+cargo run
 ```

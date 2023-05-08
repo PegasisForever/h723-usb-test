@@ -1,15 +1,15 @@
 [package]
-authors = ["kaitlyn"]
+authors = ["kaitlyn", "pegasis"]
 edition = "2021"
 readme = "README.md"
-name = "embassy-testing"
+name = "embassy-template"
 version = "0.1.0"
 
 [dependencies]
 embassy-sync = { version = "0.1.0", path = "embassy/embassy-sync", features = ["defmt"] }
 embassy-executor = { version = "0.1.0", path = "embassy/embassy-executor", features = ["defmt", "integrated-timers"] }
 embassy-time = { version = "0.1.0", path = "embassy/embassy-time", features = ["defmt", "defmt-timestamp-uptime", "unstable-traits", "tick-hz-32_768"] }
-embassy-stm32 = { version = "0.1.0", path = "embassy/embassy-stm32", features = ["nightly", "unstable-traits", "defmt", "stm32f411re", "unstable-pac", "memory-x", "time-driver-any", "exti"]  }
+embassy-stm32 = { version = "0.1.0", path = "embassy/embassy-stm32", features = ["nightly", "unstable-traits", "defmt", "stm32f412re", "unstable-pac", "memory-x", "time-driver-any", "exti"]  }
 embassy-usb = { version = "0.1.0", path = "embassy/embassy-usb", features = ["defmt"] }
 embassy-net = { version = "0.1.0", path = "embassy/embassy-net", features = ["defmt", "tcp", "dhcpv4", "medium-ethernet", "nightly"], optional = true }
 defmt = "0.3"
@@ -29,14 +29,18 @@ static_cell = "1.0"
 
 # this lets you use `cargo fix`!
 [[bin]]
-name = "embassy-testing"
+name = "embassy-template"
 test = false
 bench = false
 
-[env]
-DEFMT_LOG="debug"
+[profile.dev]
+opt-level = "z"
+codegen-units = 1
+lto = true
 
 [profile.release]
-codegen-units = 1 # better optimizations
-lto = true # better optimizations
+opt-level = "z"
+codegen-units = 1
+lto = true
+panic = "abort"
 debug = true # symbols are nice and they don't increase the size on Flash
