@@ -4,7 +4,6 @@ import subprocess
 import re
 import math
 import os
-import time
 
 FLASH_SIZE_KIB = 512
 RAM_SIZE_KIB = 256
@@ -13,14 +12,8 @@ build_env = os.environ.copy()
 build_env['DEFMT_LOG'] = 'off'
 
 subprocess.run('cargo clean'.split(' '), capture_output=True)
-compile_start_time = time.time()
-result = subprocess.run(
-    'cargo bloat --release --crates --split-std --no-relative-size'.split(' '), capture_output=True)
-compile_duration = time.time() - compile_start_time
-if result.stderr.decode("utf-8").find("error: could not compile") >= 0:
-    print("Compilation failed.")
-    exit(1)
-print(result.stdout.decode("utf-8")[:-93])
+subprocess.run(
+    'cargo bloat --release --crates --split-std --no-relative-size'.split(' '))
 
 result = subprocess.run(
     'cargo size --release -- -A'.split(' '), capture_output=True)
@@ -41,7 +34,7 @@ for line in lines:
 
 subprocess.run('cargo clean'.split(' '), capture_output=True)
 
-print(f"Compilation took {round(compile_duration)}s")
+print()
 print(f"Total size in release mode:")
 print(f"Flash: {math.ceil(rom_bytes / 1024)}KiB / {FLASH_SIZE_KIB}KiB ({round(rom_bytes / (FLASH_SIZE_KIB * 1024) * 100)}%)")
 print(
