@@ -11,9 +11,18 @@ RAM_SIZE_KIB = 256
 build_env = os.environ.copy()
 build_env['DEFMT_LOG'] = 'off'
 
-subprocess.run('cargo clean'.split(' '), capture_output=True)
-subprocess.run(
-    'cargo bloat --release --crates --split-std --no-relative-size'.split(' '))
+subprocess.run('cargo clean'.split(' '), capture_output=True) # or cargo won't recompile with the new env
+subprocess.run('cargo build --release'.split(' '))
+result = subprocess.run(
+    'cargo bloat --release --crates --split-std --no-relative-size -n 20'.split(' '), capture_output=True)
+if result.stderr.decode("utf-8").find("error: could not compile") >= 0:
+    exit(1)
+print()
+print(result.stdout.decode("utf-8")[:-93])
+
+result = subprocess.run(
+    'cargo bloat --release --split-std --no-relative-size -n 20'.split(' '), capture_output=True)
+print(result.stdout.decode("utf-8")[:-93])
 
 result = subprocess.run(
     'cargo size --release -- -A'.split(' '), capture_output=True)
